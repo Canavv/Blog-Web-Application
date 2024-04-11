@@ -61,7 +61,7 @@ export default function Home() {
       <div className="row justify-content-center gap-5 h-100">
         <div className="col-lg-12">
           <h1 className="pb-2">My Post</h1>
-          {books.map((book) => {
+          {books && books.map((book) => {
             return <BookItem key={book.id} book={book} />;
           })}
         </div>
