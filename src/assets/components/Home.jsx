@@ -14,9 +14,7 @@ export default function Home() {
       try {
         const response = await axios.get("/api");
         const data = response.data;
-        const result = Object.values(data);
-        console.log(result);
-        setBooks(result);
+        setBooks(data);
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -24,7 +22,6 @@ export default function Home() {
       }
     };
     FetchData();
-    console.log(typeof books);
   }, []);
 
   return (
