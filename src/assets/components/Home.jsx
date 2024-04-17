@@ -4,14 +4,27 @@ import BookItem from "./BookItem";
 
 export default function Home() {
   const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState();
   const copyBook = structuredClone(books);
 
   useEffect(() => {
+    setLoading(true);
     const FetchData = async () => {
-      const response = await axios.get("/api");
-      setBooks(response.data);
+      try {
+        const response = await axios.get("/api");
+        const data = response.data;
+        const result = Object.values(data);
+        console.log(result);
+        setBooks(result);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        setErrorMessage(error.message);
+      }
     };
     FetchData();
+    console.log(typeof books);
   }, []);
 
   return (
@@ -61,9 +74,12 @@ export default function Home() {
       <div className="row justify-content-center gap-5 h-100">
         <div className="col-lg-12">
           <h1 className="pb-2">My Post</h1>
-          {books && Object.keys(books).map((book) => {
-            return <BookItem key={book.id} book={book} />;
-          })}
+          {loading && <div className="loader"></div>}
+          {errorMessage && <div>{errorMessage}</div>}
+          {!loading &&
+            books.map((book) => {
+              return <BookItem key={book.id} book={book} />;
+            })}
         </div>
       </div>
     </div>
