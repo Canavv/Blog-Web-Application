@@ -44,11 +44,11 @@ export default function Post() {
           <h3 className="fw-normal">Score: {book.score}/10</h3>
           <p>ISBN: {book.isbn}</p>
           <p>
-            Info URL:
+            Info URL: 
             {book.info_url ? <a href={book.info_url}>{book.info_url}</a> : " -"}
           </p>
           <p>
-            Preview URL:
+            Preview URL: 
             {book.preview_url ? (
               <a href={book.preview_url}>{book.preview_url}</a>
             ) : (
