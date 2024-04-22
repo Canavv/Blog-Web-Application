@@ -4,28 +4,38 @@ import axios from "axios";
 import moment from "moment";
 
 export default function Post() {
+  const api_Url = "https://simple-book-api.onrender.com";
   const params = useParams();
   const [book, setBook] = useState({});
+  const [errorMsg, setErrorMsg] = useState();
   const navigate = useNavigate();
+  const date = moment(book.dates).format("DD/MM/YYYY");
 
   useEffect(() => {
     const FetchData = async () => {
-      const response = await axios.get(`/api/${params.id}`);
-      const data = response.data;
-      setBook(data);
+      try {
+        const response = await axios.get(`${api_Url}/api/${params.id}`);
+        const data = response.data;
+        setBook(data);
+      } catch (error) {
+        setErrorMsg(error.response.data.error);
+      }
     };
     FetchData();
   }, []);
 
-  const date = moment(book.dates).format("DD/MM/YYYY");
-
   const handleRemove = async () => {
-    await axios.post(`/remove/${book.id}`);
-    navigate("/");
+    try {
+      await axios.post(`${api_Url}/remove/${book.id}`);
+      navigate("/");
+    } catch (error) {
+      setErrorMsg(error.message);
+    }
   };
 
   return (
     <div className="container my-5">
+      {errorMsg && <div className="alert alert-danger w-75">{errorMsg}</div>}
       <div className="row">
         <article className="blog-post col-md-6 col-lg-7 col-xl-8">
           <div>Book Add Date: {date}</div>
@@ -64,7 +74,7 @@ export default function Post() {
         </Link>
 
         <button
-          onClick={() => handleRemove()}
+          onClick={() => void handleRemove()}
           className="btn btn-outline-danger btn-lg px-4 me-md-2 fw-bold"
         >
           Remove

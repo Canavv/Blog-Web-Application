@@ -11,7 +11,7 @@ export default function BookItem({ book }) {
           Score: {book.score}/10
         </strong>
         <h3 className="mb-0"> {book.title}</h3>
-        <div className="mb-1 text-body-secondary"> {date}</div>
+        <div className="mb-1 text-body-secondary">{date}</div>
         <div className="card-text truncate">{book.review}</div>
         <Link to={`/post/${book.id}`} state={book}>
           Continue reading
